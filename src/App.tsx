@@ -141,6 +141,9 @@ export default function App() {
     let late = 0;
     const statusMap: Record<string, number> = {};
     const prazoMap: Record<string, number> = { 'NO PRAZO': 0, 'CRÍTICO': 0, 'CONCLUÍDO': 0 };
+    const typeMap: Record<string, number> = {};
+    const localityMap: Record<string, number> = {};
+    const monthlyMap: Record<string, number> = {};
 
     processedData.forEach(item => {
       const isAtivo = /andamento|aberto|entregue/i.test(item.Status);
@@ -150,6 +153,17 @@ export default function App() {
       }
       statusMap[item.Status] = (statusMap[item.Status] || 0) + 1;
       prazoMap[item._sit]++;
+      
+      const type = item.Tipo || 'Não Informado';
+      typeMap[type] = (typeMap[type] || 0) + 1;
+      
+      const locality = item.Localidade || 'Não Informada';
+      localityMap[locality] = (localityMap[locality] || 0) + 1;
+
+      if (item._date) {
+        const monthKey = format(item._date, 'MMM/yy');
+        monthlyMap[monthKey] = (monthlyMap[monthKey] || 0) + 1;
+      }
     });
 
     const efficiency = total > 0 ? ((total - late) / total * 100).toFixed(1) + "%" : "100%";
@@ -160,7 +174,10 @@ export default function App() {
       late,
       efficiency,
       statusData: Object.entries(statusMap).map(([name, value]) => ({ name, value })),
-      slaData: Object.entries(prazoMap).map(([name, value]) => ({ name, value }))
+      slaData: Object.entries(prazoMap).map(([name, value]) => ({ name, value })),
+      typeData: Object.entries(typeMap).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value).slice(0, 8),
+      localityData: Object.entries(localityMap).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value).slice(0, 8),
+      monthlyData: Object.entries(monthlyMap).map(([name, value]) => ({ name, value }))
     };
   }, [processedData]);
 
@@ -296,6 +313,9 @@ export default function App() {
           <Dashboard 
             statusData={stats.statusData} 
             slaData={stats.slaData} 
+            typeData={stats.typeData}
+            localityData={stats.localityData}
+            monthlyData={stats.monthlyData}
           />
         ) : (
           <ProtocolTable 
