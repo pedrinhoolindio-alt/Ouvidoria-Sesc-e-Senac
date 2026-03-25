@@ -22,13 +22,14 @@ import StatsCards from './components/StatsCards';
 import Dashboard from './components/Dashboard';
 import ProtocolTable from './components/ProtocolTable';
 import Filters from './components/Filters';
+import Settings from './components/Settings';
 import { handleFirestoreError, OperationType } from './lib/firestore-errors';
 
 export default function App() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [unidade, setUnidade] = useState<Unidade>('sesc');
-  const [view, setView] = useState<'tabela' | 'dashboard'>('tabela');
+  const [view, setView] = useState<'tabela' | 'dashboard' | 'settings'>('tabela');
   const [allData, setAllData] = useState<Protocolo[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
@@ -317,6 +318,8 @@ export default function App() {
             localityData={stats.localityData}
             monthlyData={stats.monthlyData}
           />
+        ) : view === 'settings' ? (
+          <Settings />
         ) : (
           <ProtocolTable 
             data={processedData}

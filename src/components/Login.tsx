@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { auth } from '../lib/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { LogIn } from 'lucide-react';
+import { useSettings } from '../hooks/useSettings';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const { settings } = useSettings();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,10 +44,15 @@ export default function Login() {
     <div 
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-cover bg-center"
       style={{ 
-        backgroundImage: `linear-gradient(rgba(0, 63, 127, 0.4), rgba(0, 63, 127, 0.4)), url('https://lh3.googleusercontent.com/d/1ABw_8yhOXunSVya9stgdcqtf4N3GfXVG')` 
+        backgroundImage: `linear-gradient(rgba(0, 63, 127, 0.4), rgba(0, 63, 127, 0.4)), url('${settings.loginBg}')` 
       }}
     >
       <div className="bg-white p-10 rounded-[20px] w-[90%] max-w-[400px] text-center shadow-[0_20px_50px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in duration-300">
+        <img 
+          src={settings.logoUrl} 
+          alt="Logo" 
+          className="w-[80px] h-[80px] mx-auto mb-4 rounded-full bg-white object-contain p-1 shadow-sm"
+        />
         <h2 className="text-[#003F7F] mb-2.5 text-2xl font-extrabold">
           {isSignUp ? 'Criar Conta' : 'Acesso Restrito'}
         </h2>

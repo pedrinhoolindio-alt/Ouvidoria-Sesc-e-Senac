@@ -27,6 +27,21 @@
         }
       },
       "required": ["Número Sequencial", "Data de Realização", "Status"]
+    },
+    "Configuracoes": {
+      "title": "Configurações",
+      "description": "Configurações visuais do sistema",
+      "type": "object",
+      "properties": {
+        "loginBg": {
+          "type": "string",
+          "description": "URL da imagem de fundo do login"
+        },
+        "logoUrl": {
+          "type": "string",
+          "description": "URL da logomarca"
+        }
+      }
     }
   },
   "firestore": {
@@ -37,6 +52,10 @@
     "/protocolos_senac/{id}": {
       "schema": "Protocolo",
       "description": "Protocolos da unidade Senac"
+    },
+    "/settings/{id}": {
+      "schema": "Configuracoes",
+      "description": "Configurações globais do sistema"
     }
   }
 }

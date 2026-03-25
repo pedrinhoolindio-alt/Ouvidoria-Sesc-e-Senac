@@ -5,17 +5,19 @@ import {
   Trash2, 
   Upload, 
   LogOut,
-  X
+  X,
+  Settings as SettingsIcon
 } from 'lucide-react';
 import { Unidade } from '../types';
 import { auth } from '../lib/firebase';
 import { clsx } from 'clsx';
+import { useSettings } from '../hooks/useSettings';
 
 interface SidebarProps {
   unidade: Unidade;
   setUnidade: (u: Unidade) => void;
-  view: 'tabela' | 'dashboard';
-  setView: (v: 'tabela' | 'dashboard') => void;
+  view: 'tabela' | 'dashboard' | 'settings';
+  setView: (v: 'tabela' | 'dashboard' | 'settings') => void;
   onImport: () => void;
   onClear: () => void;
   isOpen: boolean;
@@ -34,6 +36,7 @@ export default function Sidebar({
 }: SidebarProps) {
   const isSesc = unidade === 'sesc';
   const brandColor = isSesc ? '#003F7F' : '#F47920';
+  const { settings } = useSettings();
 
   return (
     <>
@@ -59,7 +62,7 @@ export default function Sidebar({
           <X size={24} />
         </button>
       <img 
-        src="https://lh3.googleusercontent.com/d/17mdvylkyJFyYwvbYjllKYj3l6mJzwSWm" 
+        src={settings.logoUrl} 
         alt="Ouvidoria Logo" 
         className="w-[90px] h-[90px] rounded-full bg-white block mb-4 object-contain p-0 shadow-md"
       />
@@ -119,6 +122,20 @@ export default function Sidebar({
         >
           <PieChartIcon size={18} />
           <span>Dashboard</span>
+        </div>
+        <div 
+          className={clsx(
+            "p-3.5 cursor-pointer rounded-xl flex items-center gap-3 font-semibold transition-all duration-200",
+            view === 'settings' ? "bg-white text-current" : "bg-white/5 text-white"
+          )}
+          style={{ color: view === 'settings' ? brandColor : undefined }}
+          onClick={() => {
+            setView('settings');
+            setIsOpen(false);
+          }}
+        >
+          <SettingsIcon size={18} />
+          <span>Configurações</span>
         </div>
       </nav>
       
