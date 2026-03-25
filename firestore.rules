@@ -1,0 +1,73 @@
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: protocolos_sesc, protocolos_senac
+// Document ID: auto-generated
+// Fields:
+//   - Número Sequencial: string (required) - Protocol number
+//   - Data de Realização: string (required) - Date of realization
+//   - Status: string (required) - Current status
+//   - Tipo: string (optional) - Type of demand
+//   - Localidade: string (optional) - Location
+//
+// ===============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          (request.auth.token.email == "pedrinhoolindio@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function isValidProtocol(data) {
+      return data['Número Sequencial'] is string &&
+             data['Data de Realização'] is string &&
+             data['Status'] is string &&
+             (!('Tipo' in data) || data['Tipo'] is string) &&
+             (!('Localidade' in data) || data['Localidade'] is string);
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /protocolos_sesc/{protocolId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && isValidProtocol(request.resource.data);
+      allow update: if isAuthenticated() && isValidProtocol(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /protocolos_senac/{protocolId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && isValidProtocol(request.resource.data);
+      allow update: if isAuthenticated() && isValidProtocol(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow write: if isAdmin();
+    }
+  }
+}

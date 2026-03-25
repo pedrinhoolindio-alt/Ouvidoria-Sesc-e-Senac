@@ -1,0 +1,5 @@
+{
+  "name": "Ouvidoria Sesc/Senac - Gestão de SLA",
+  "description": "Sistema de gestão de ouvidoria para Sesc e Senac com monitoramento de SLA, dashboards e importação de dados.",
+  "requestFramePermissions": []
+}

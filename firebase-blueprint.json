@@ -1,0 +1,42 @@
+{
+  "entities": {
+    "Protocolo": {
+      "title": "Protocolo",
+      "description": "Dados de um protocolo de ouvidoria",
+      "type": "object",
+      "properties": {
+        "Número Sequencial": {
+          "type": "string",
+          "description": "Número do protocolo"
+        },
+        "Data de Realização": {
+          "type": "string",
+          "description": "Data em que o protocolo foi realizado"
+        },
+        "Status": {
+          "type": "string",
+          "description": "Status atual do protocolo"
+        },
+        "Tipo": {
+          "type": "string",
+          "description": "Tipo de demanda"
+        },
+        "Localidade": {
+          "type": "string",
+          "description": "Localidade da ocorrência"
+        }
+      },
+      "required": ["Número Sequencial", "Data de Realização", "Status"]
+    }
+  },
+  "firestore": {
+    "/protocolos_sesc/{id}": {
+      "schema": "Protocolo",
+      "description": "Protocolos da unidade Sesc"
+    },
+    "/protocolos_senac/{id}": {
+      "schema": "Protocolo",
+      "description": "Protocolos da unidade Senac"
+    }
+  }
+}
