@@ -148,27 +148,33 @@ export default function Sidebar({
         {isAdmin && (
           <>
             <button 
-              className="btn-main bg-[#EF4444] text-[12px]" 
+              className="flex items-center gap-3 p-3 rounded-xl bg-red-500/20 text-red-100 hover:bg-red-500/30 transition-all duration-200 text-[11px] font-bold uppercase tracking-wider w-full" 
               onClick={onClear}
             >
-              <Trash2 size={16} />
-              LIMPAR
+              <div className="bg-red-500 p-1.5 rounded-lg shadow-sm">
+                <Trash2 size={14} className="text-white" />
+              </div>
+              LIMPAR DADOS
             </button>
             <button 
-              className="btn-main bg-[#F47920] text-[12px]" 
+              className="flex items-center gap-3 p-3 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-all duration-200 text-[11px] font-bold uppercase tracking-wider w-full" 
               onClick={onImport}
             >
-              <Upload size={16} />
-              IMPORTAR
+              <div className="bg-[#F47920] p-1.5 rounded-lg shadow-sm">
+                <Upload size={14} className="text-white" />
+              </div>
+              IMPORTAR EXCEL
             </button>
           </>
         )}
         <button 
-          className="btn-main bg-transparent border border-white/30 text-[11px] mt-2" 
+          className="flex items-center gap-3 p-3 rounded-xl bg-transparent border border-white/20 text-white/80 hover:bg-white/10 hover:text-white transition-all duration-200 text-[11px] font-bold uppercase tracking-wider w-full mt-2" 
           onClick={() => auth.signOut()}
         >
-          <LogOut size={16} />
-          SAIR
+          <div className="p-1.5">
+            <LogOut size={16} />
+          </div>
+          SAIR DA CONTA
         </button>
       </div>
     </aside>
