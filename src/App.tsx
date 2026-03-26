@@ -25,8 +25,19 @@ import Filters from './components/Filters';
 import Settings from './components/Settings';
 import { handleFirestoreError, OperationType } from './lib/firestore-errors';
 
+import { SettingsProvider } from './contexts/SettingsContext';
+
 export default function App() {
+  return (
+    <SettingsProvider>
+      <AppContent />
+    </SettingsProvider>
+  );
+}
+
+function AppContent() {
   const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [unidade, setUnidade] = useState<Unidade>('sesc');
   const [view, setView] = useState<'tabela' | 'dashboard' | 'settings'>('tabela');
@@ -43,6 +54,7 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
+      setIsAdmin(u?.email === 'phenrique@sesc-ce.com.br');
       setLoading(false);
     });
     return unsubscribe;
@@ -178,7 +190,18 @@ export default function App() {
       slaData: Object.entries(prazoMap).map(([name, value]) => ({ name, value })),
       typeData: Object.entries(typeMap).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value).slice(0, 8),
       localityData: Object.entries(localityMap).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value).slice(0, 8),
-      monthlyData: Object.entries(monthlyMap).map(([name, value]) => ({ name, value }))
+      monthlyData: Object.entries(monthlyMap).map(([name, value]) => ({ name, value })),
+      heatmapData: {
+        statuses: Array.from(new Set(processedData.map(d => d.Status || 'Sem Status'))),
+        localities: Array.from(new Set(processedData.map(d => d.Localidade || 'Não Informada'))).slice(0, 10), // Limit to top 10 for readability
+        matrix: processedData.reduce((acc: any, curr) => {
+          const s = curr.Status || 'Sem Status';
+          const l = curr.Localidade || 'Não Informada';
+          if (!acc[s]) acc[s] = {};
+          acc[s][l] = (acc[s][l] || 0) + 1;
+          return acc;
+        }, {})
+      }
     };
   }, [processedData]);
 
@@ -248,6 +271,17 @@ export default function App() {
     XLSX.writeFile(wb, `Ouvidoria_${unidade}_${format(new Date(), 'ddMMyyyy')}.xlsx`);
   };
 
+  const firstName = useMemo(() => {
+    if (!user) return '';
+    if (user.displayName) return user.displayName.split(' ')[0];
+    if (user.email) {
+      const namePart = user.email.split('@')[0];
+      const firstPart = namePart.split(/[._]/)[0];
+      return firstPart.charAt(0).toUpperCase() + firstPart.slice(1);
+    }
+    return 'Usuário';
+  }, [user]);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-[#F0F2F5]">
@@ -259,7 +293,7 @@ export default function App() {
   if (!user) return <Login />;
 
   return (
-    <div className="flex min-h-screen bg-[#F0F2F5]">
+    <div className="flex min-h-screen bg-[#f8fafc]">
       <Sidebar 
         unidade={unidade} 
         setUnidade={setUnidade} 
@@ -269,27 +303,31 @@ export default function App() {
         onClear={handleClearDatabase}
         isOpen={isSidebarOpen}
         setIsOpen={setIsSidebarOpen}
+        isAdmin={isAdmin}
       />
       
-      <main className="flex-1 p-4 md:p-8 w-full lg:ml-[260px] transition-all duration-400">
-        <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
-          <div className="flex items-center gap-4">
+      <main className="flex-1 p-4 md:p-8 w-full lg:ml-[260px] transition-all duration-500">
+        <div className="flex justify-between items-center mb-10 flex-wrap gap-4 bg-white/40 backdrop-blur-md p-6 rounded-[2.5rem] border border-white/60 shadow-sm">
+          <div className="flex items-center gap-5">
             <button 
-              className="lg:hidden p-2 bg-white rounded-lg shadow-sm text-gray-600"
+              className="lg:hidden p-3 bg-white rounded-2xl shadow-sm text-slate-600 hover:bg-slate-50 transition-colors"
               onClick={() => setIsSidebarOpen(true)}
             >
               <Menu size={24} />
             </button>
-            <h1 className="text-xl md:text-2xl font-black text-current" style={{ color: unidade === 'sesc' ? '#003F7F' : '#F47920' }}>
-              Gestão de Protocolos {unidade === 'sesc' ? 'Sesc' : 'Senac'}
-            </h1>
+            <div className="flex flex-col">
+              <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Olá, {firstName}! 👋</p>
+              <h1 className="text-2xl md:text-3xl font-black tracking-tight" style={{ color: unidade === 'sesc' ? '#003F7F' : '#F47920' }}>
+                Gestão de Protocolos {unidade === 'sesc' ? 'Sesc' : 'Senac'}
+              </h1>
+            </div>
           </div>
           <button 
-            className="btn-main bg-[#10B981] w-full md:w-auto" 
+            className="btn-relief btn-relief-green !w-auto !px-6 !py-2.5 !text-[11px] !rounded-2xl" 
             onClick={handleExportExcel}
           >
-            <FileSpreadsheet size={18} />
-            EXCEL
+            <FileSpreadsheet size={16} />
+            EXPORTAR EXCEL
           </button>
         </div>
 
@@ -317,6 +355,7 @@ export default function App() {
             typeData={stats.typeData}
             localityData={stats.localityData}
             monthlyData={stats.monthlyData}
+            heatmapData={stats.heatmapData}
           />
         ) : view === 'settings' ? (
           <Settings />

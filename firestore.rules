@@ -27,8 +27,9 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-          (request.auth.token.email == "pedrinhoolindio@gmail.com" && request.auth.token.email_verified == true));
+        (request.auth.token.email == "phenrique@sesc-ce.com.br" ||
+          (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'));
     }
 
     function hasRequiredFields(fields) {
@@ -40,11 +41,11 @@ service cloud.firestore {
     }
 
     function isValidProtocol(data) {
-      return data['Número Sequencial'] is string &&
-             data['Data de Realização'] is string &&
-             data['Status'] is string &&
-             (!('Tipo' in data) || data['Tipo'] is string) &&
-             (!('Localidade' in data) || data['Localidade'] is string);
+      return data['Número Sequencial'] is string && data['Número Sequencial'].size() < 100 &&
+             data['Data de Realização'] is string && data['Data de Realização'].size() < 50 &&
+             data['Status'] is string && data['Status'].size() < 100 &&
+             (!('Tipo' in data) || (data['Tipo'] is string && data['Tipo'].size() < 200)) &&
+             (!('Localidade' in data) || (data['Localidade'] is string && data['Localidade'].size() < 200));
     }
 
     // ===============================================================

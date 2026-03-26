@@ -37,6 +37,10 @@
           "type": "string",
           "description": "URL da imagem de fundo do login"
         },
+        "loginBgMobile": {
+          "type": "string",
+          "description": "URL da imagem de fundo do login para celular"
+        },
         "logoUrl": {
           "type": "string",
           "description": "URL da logomarca"
