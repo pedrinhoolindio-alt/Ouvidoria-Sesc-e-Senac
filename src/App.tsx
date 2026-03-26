@@ -293,7 +293,7 @@ function AppContent() {
   if (!user) return <Login />;
 
   return (
-    <div className="flex min-h-screen bg-[#f8fafc]">
+    <div className="flex min-h-screen bg-[#F0F2F5]">
       <Sidebar 
         unidade={unidade} 
         setUnidade={setUnidade} 
@@ -306,28 +306,28 @@ function AppContent() {
         isAdmin={isAdmin}
       />
       
-      <main className="flex-1 p-4 md:p-8 w-full lg:ml-[260px] transition-all duration-500">
-        <div className="flex justify-between items-center mb-10 flex-wrap gap-4 bg-white/40 backdrop-blur-md p-6 rounded-[2.5rem] border border-white/60 shadow-sm">
-          <div className="flex items-center gap-5">
+      <main className="flex-1 p-4 md:p-8 w-full lg:ml-[260px] transition-all duration-400">
+        <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
+          <div className="flex items-center gap-4">
             <button 
-              className="lg:hidden p-3 bg-white rounded-2xl shadow-sm text-slate-600 hover:bg-slate-50 transition-colors"
+              className="lg:hidden p-2 bg-white rounded-lg shadow-sm text-gray-600"
               onClick={() => setIsSidebarOpen(true)}
             >
               <Menu size={24} />
             </button>
             <div className="flex flex-col">
-              <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Olá, {firstName}! 👋</p>
-              <h1 className="text-2xl md:text-3xl font-black tracking-tight" style={{ color: unidade === 'sesc' ? '#003F7F' : '#F47920' }}>
+              <p className="text-xs font-medium text-gray-500 mb-0.5">Olá, {firstName}! 👋</p>
+              <h1 className="text-xl md:text-2xl font-black text-current" style={{ color: unidade === 'sesc' ? '#003F7F' : '#F47920' }}>
                 Gestão de Protocolos {unidade === 'sesc' ? 'Sesc' : 'Senac'}
               </h1>
             </div>
           </div>
           <button 
-            className="btn-relief btn-relief-green !w-auto !px-6 !py-2.5 !text-[11px] !rounded-2xl" 
+            className="btn-main bg-[#10B981] !w-auto !px-3 !py-1.5 !text-[10px] !rounded-lg shadow-sm hover:brightness-110" 
             onClick={handleExportExcel}
           >
-            <FileSpreadsheet size={16} />
-            EXPORTAR EXCEL
+            <FileSpreadsheet size={14} />
+            EXCEL
           </button>
         </div>
 

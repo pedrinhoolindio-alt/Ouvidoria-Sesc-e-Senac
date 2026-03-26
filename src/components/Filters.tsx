@@ -19,36 +19,36 @@ export default function Filters({
   setSearch 
 }: FiltersProps) {
   return (
-    <div className="card-modern p-6 mb-10 flex flex-col md:flex-row gap-6 items-stretch md:items-end animate-in fade-in slide-in-from-top-4 duration-500">
-      <div className="flex flex-col gap-2 flex-1 w-full">
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Data Início</label>
+    <div className="bg-white p-5 rounded-2xl mb-6 flex flex-col md:flex-row gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-[#E2E8F0] items-stretch md:items-end">
+      <div className="flex flex-col gap-1.5 flex-1 w-full">
+        <label className="text-[11px] font-extrabold text-[#64748B] uppercase tracking-wider">Início</label>
         <input 
           type="date" 
           value={dateStart}
           onChange={(e) => setDateStart(e.target.value)}
-          className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none text-[13px] w-full focus:ring-4 focus:ring-slate-200/50 focus:bg-white transition-all font-medium text-slate-600"
+          className="p-3 border border-[#E2E8F0] rounded-xl outline-none text-[14px] w-full focus:ring-2 focus:ring-[#003F7F]/10"
         />
       </div>
-      <div className="flex flex-col gap-2 flex-1 w-full">
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Data Fim</label>
+      <div className="flex flex-col gap-1.5 flex-1 w-full">
+        <label className="text-[11px] font-extrabold text-[#64748B] uppercase tracking-wider">Fim</label>
         <input 
           type="date" 
           value={dateEnd}
           onChange={(e) => setDateEnd(e.target.value)}
-          className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none text-[13px] w-full focus:ring-4 focus:ring-slate-200/50 focus:bg-white transition-all font-medium text-slate-600"
+          className="p-3 border border-[#E2E8F0] rounded-xl outline-none text-[14px] w-full focus:ring-2 focus:ring-[#003F7F]/10"
         />
       </div>
-      <div className="flex flex-col gap-2 flex-[2] w-full">
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Pesquisar Protocolo</label>
-        <div className="relative group">
+      <div className="flex flex-col gap-1.5 flex-[2] w-full">
+        <label className="text-[11px] font-extrabold text-[#64748B] uppercase tracking-wider">Busca</label>
+        <div className="relative">
           <input 
             type="text" 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Número, localidade ou tipo de demanda..."
-            className="p-3.5 pl-12 bg-slate-50 border border-slate-200 rounded-2xl outline-none text-[13px] w-full focus:ring-4 focus:ring-slate-200/50 focus:bg-white transition-all font-medium text-slate-600 placeholder:text-slate-400"
+            placeholder="Número, local ou tipo..."
+            className="p-3 pl-10 border border-[#E2E8F0] rounded-xl outline-none text-[14px] w-full focus:ring-2 focus:ring-[#003F7F]/10"
           />
-          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-600 transition-colors" />
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
         </div>
       </div>
     </div>

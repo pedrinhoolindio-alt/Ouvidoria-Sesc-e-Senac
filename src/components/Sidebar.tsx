@@ -52,14 +52,10 @@ export default function Sidebar({
 
       <aside 
         className={clsx(
-          "w-[260px] text-white h-screen fixed p-6 flex flex-col z-[1000] transition-all duration-500 items-center lg:translate-x-0 shadow-2xl",
+          "w-[260px] text-white h-screen fixed p-6 flex flex-col z-[1000] transition-all duration-300 items-center lg:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
-        style={{ 
-          background: isSesc 
-            ? 'linear-gradient(180deg, #003F7F 0%, #002a55 100%)' 
-            : 'linear-gradient(180deg, #F47920 0%, #c45d13 100%)' 
-        }}
+        style={{ backgroundColor: brandColor }}
       >
         <button 
           className="lg:hidden absolute top-4 right-4 text-white/70 hover:text-white"
@@ -80,11 +76,11 @@ export default function Sidebar({
         Gestão de Ouvidoria
       </p>
 
-      <div className="flex bg-white/10 backdrop-blur-md rounded-2xl p-1.5 mb-8 w-full border border-white/10 shadow-inner">
+      <div className="flex bg-white/15 rounded-xl p-1 mb-8 w-full">
         <button 
           className={clsx(
-            "flex-1 py-3 rounded-xl cursor-pointer font-black text-[11px] transition-all duration-300 tracking-wider",
-            isSesc ? "bg-white text-[#003F7F] shadow-lg" : "bg-transparent text-white hover:bg-white/5"
+            "flex-1 py-2.5 rounded-lg cursor-pointer font-extrabold text-[11px] transition-all duration-300",
+            isSesc ? "bg-white text-[#003F7F]" : "bg-transparent text-white"
           )}
           onClick={() => setUnidade('sesc')}
         >
@@ -92,8 +88,8 @@ export default function Sidebar({
         </button>
         <button 
           className={clsx(
-            "flex-1 py-3 rounded-xl cursor-pointer font-black text-[11px] transition-all duration-300 tracking-wider",
-            !isSesc ? "bg-white text-[#F47920] shadow-lg" : "bg-transparent text-white hover:bg-white/5"
+            "flex-1 py-2.5 rounded-lg cursor-pointer font-extrabold text-[11px] transition-all duration-300",
+            !isSesc ? "bg-white text-[#F47920]" : "bg-transparent text-white"
           )}
           onClick={() => setUnidade('senac')}
         >
@@ -101,11 +97,11 @@ export default function Sidebar({
         </button>
       </div>
 
-      <nav className="w-full space-y-3">
+      <nav className="w-full space-y-2">
         <div 
           className={clsx(
-            "p-4 cursor-pointer rounded-2xl flex items-center gap-3 font-black text-[13px] transition-all duration-300",
-            view === 'tabela' ? "bg-white text-current shadow-xl scale-[1.02]" : "bg-white/5 text-white hover:bg-white/10"
+            "p-3.5 cursor-pointer rounded-xl flex items-center gap-3 font-semibold transition-all duration-200",
+            view === 'tabela' ? "bg-white text-current" : "bg-white/5 text-white"
           )}
           style={{ color: view === 'tabela' ? brandColor : undefined }}
           onClick={() => {
@@ -113,13 +109,13 @@ export default function Sidebar({
             setIsOpen(false);
           }}
         >
-          <Table size={20} />
+          <Table size={18} />
           <span>Tabela</span>
         </div>
         <div 
           className={clsx(
-            "p-4 cursor-pointer rounded-2xl flex items-center gap-3 font-black text-[13px] transition-all duration-300",
-            view === 'dashboard' ? "bg-white text-current shadow-xl scale-[1.02]" : "bg-white/5 text-white hover:bg-white/10"
+            "p-3.5 cursor-pointer rounded-xl flex items-center gap-3 font-semibold transition-all duration-200",
+            view === 'dashboard' ? "bg-white text-current" : "bg-white/5 text-white"
           )}
           style={{ color: view === 'dashboard' ? brandColor : undefined }}
           onClick={() => {
@@ -127,14 +123,14 @@ export default function Sidebar({
             setIsOpen(false);
           }}
         >
-          <PieChartIcon size={20} />
+          <PieChartIcon size={18} />
           <span>Dashboard</span>
         </div>
         {isAdmin && (
           <div 
             className={clsx(
-              "p-4 cursor-pointer rounded-2xl flex items-center gap-3 font-black text-[13px] transition-all duration-300",
-              view === 'settings' ? "bg-white text-current shadow-xl scale-[1.02]" : "bg-white/5 text-white hover:bg-white/10"
+              "p-3.5 cursor-pointer rounded-xl flex items-center gap-3 font-semibold transition-all duration-200",
+              view === 'settings' ? "bg-white text-current" : "bg-white/5 text-white"
             )}
             style={{ color: view === 'settings' ? brandColor : undefined }}
             onClick={() => {
@@ -142,37 +138,37 @@ export default function Sidebar({
               setIsOpen(false);
             }}
           >
-            <SettingsIcon size={20} />
+            <SettingsIcon size={18} />
             <span>Configurações</span>
           </div>
         )}
       </nav>
       
-      <div className="mt-auto flex flex-col gap-4 w-full">
+      <div className="mt-auto flex flex-col gap-2 w-full">
         {isAdmin && (
           <>
             <button 
-              className="btn-relief btn-relief-red !text-[11px] !py-3.5" 
+              className="btn-main bg-[#EF4444] text-[12px]" 
               onClick={onClear}
             >
-              <Trash2 size={18} />
-              LIMPAR DADOS
+              <Trash2 size={16} />
+              LIMPAR
             </button>
             <button 
-              className="btn-relief btn-relief-orange !text-[11px] !py-3.5" 
+              className="btn-main bg-[#F47920] text-[12px]" 
               onClick={onImport}
             >
-              <Upload size={18} />
-              IMPORTAR EXCEL
+              <Upload size={16} />
+              IMPORTAR
             </button>
           </>
         )}
         <button 
-          className="flex items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 border border-white/10 text-[11px] font-black tracking-widest hover:bg-white/10 transition-all active:scale-95 mt-4" 
+          className="btn-main bg-transparent border border-white/30 text-[11px] mt-2.5" 
           onClick={() => auth.signOut()}
         >
-          <LogOut size={18} />
-          SAIR DO SISTEMA
+          <LogOut size={16} />
+          SAIR
         </button>
       </div>
     </aside>
