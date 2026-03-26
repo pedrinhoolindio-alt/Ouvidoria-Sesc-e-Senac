@@ -52,7 +52,7 @@ export default function Sidebar({
 
       <aside 
         className={clsx(
-          "w-[260px] text-white h-screen fixed p-6 flex flex-col z-[1000] transition-all duration-300 items-center lg:translate-x-0",
+          "w-[260px] text-white h-[100dvh] fixed p-6 flex flex-col z-[1000] transition-all duration-300 items-center lg:translate-x-0 overflow-y-auto",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
         style={{ backgroundColor: brandColor }}
@@ -144,7 +144,7 @@ export default function Sidebar({
         )}
       </nav>
       
-      <div className="mt-auto flex flex-col gap-2 w-full">
+      <div className="mt-auto flex flex-col gap-2 w-full pt-6 pb-8 border-t border-white/10">
         {isAdmin && (
           <>
             <button 
@@ -164,7 +164,7 @@ export default function Sidebar({
           </>
         )}
         <button 
-          className="btn-main bg-transparent border border-white/30 text-[11px] mt-2.5" 
+          className="btn-main bg-transparent border border-white/30 text-[11px] mt-2" 
           onClick={() => auth.signOut()}
         >
           <LogOut size={16} />
