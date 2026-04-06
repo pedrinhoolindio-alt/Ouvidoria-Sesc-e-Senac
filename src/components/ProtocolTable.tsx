@@ -47,7 +47,7 @@ export default function ProtocolTable({
         <thead>
           <tr>
             <th>Protocolo</th>
-            <th>Realização</th>
+            <th>Submissão</th>
             <th className="relative">
               <div className="flex items-center gap-2">
                 Status 

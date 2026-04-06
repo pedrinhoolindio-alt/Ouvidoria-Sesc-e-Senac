@@ -123,7 +123,7 @@ function AppContent() {
     const searchTerm = search.toLowerCase();
 
     return allData.map(item => {
-      const d = parseExcelDate(item['Data de Realização']);
+      const d = parseExcelDate(item['Data de Submissão']);
       const status = item.Status || "Sem Status";
       const isAtivo = /andamento|aberto|entregue/i.test(status);
       const diff = d ? differenceInDays(new Date(), d) : 0;

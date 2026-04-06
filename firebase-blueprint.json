@@ -9,9 +9,9 @@
           "type": "string",
           "description": "Número do protocolo"
         },
-        "Data de Realização": {
+        "Data de Submissão": {
           "type": "string",
-          "description": "Data em que o protocolo foi realizado"
+          "description": "Data em que o protocolo foi submetido"
         },
         "Status": {
           "type": "string",
@@ -26,7 +26,7 @@
           "description": "Localidade da ocorrência"
         }
       },
-      "required": ["Número Sequencial", "Data de Realização", "Status"]
+      "required": ["Número Sequencial", "Data de Submissão", "Status"]
     },
     "Configuracoes": {
       "title": "Configurações",

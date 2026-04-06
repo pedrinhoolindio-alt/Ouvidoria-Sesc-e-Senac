@@ -1,7 +1,7 @@
 export interface Protocolo {
   id?: string;
   "Número Sequencial": string;
-  "Data de Realização": string | number;
+  "Data de Submissão": string | number;
   Status: string;
   Tipo?: string;
   Localidade?: string;

@@ -6,7 +6,7 @@
 // Document ID: auto-generated
 // Fields:
 //   - Número Sequencial: string (required) - Protocol number
-//   - Data de Realização: string (required) - Date of realization
+//   - Data de Submissão: string (required) - Date of submission
 //   - Status: string (required) - Current status
 //   - Tipo: string (optional) - Type of demand
 //   - Localidade: string (optional) - Location
@@ -42,7 +42,7 @@ service cloud.firestore {
 
     function isValidProtocol(data) {
       return data['Número Sequencial'] is string && data['Número Sequencial'].size() < 100 &&
-             data['Data de Realização'] is string && data['Data de Realização'].size() < 50 &&
+             data['Data de Submissão'] is string && data['Data de Submissão'].size() < 50 &&
              data['Status'] is string && data['Status'].size() < 100 &&
              (!('Tipo' in data) || (data['Tipo'] is string && data['Tipo'].size() < 200)) &&
              (!('Localidade' in data) || (data['Localidade'] is string && data['Localidade'].size() < 200));
